@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
     ],
   },
   /* config options here */
-    devIndicators: {
+  experimental: {
+    after: true,
+  }, // <-- Add a comma here to separate the properties
+  devIndicators: {
     appIsrStatus: true,
     buildActivity: true,
     buildActivityPosition: "bottom-right",
