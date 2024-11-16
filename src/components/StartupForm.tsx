@@ -10,6 +10,8 @@ import { Send } from 'lucide-react';
 import { formSchema } from '@/lib/validation';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
+import { createPitch } from '@/app/actions/formActions';
+import { useRouter } from 'next/navigation';
 //import dynamic from 'next/dynamic';
 // const MDEditor = dynamic(
 //     () => import("@uiw/react-md-editor").then(mod => mod.default),
@@ -26,6 +28,8 @@ const StartupForm = () => {
 
     const { toast } = useToast();
 
+    const router = useRouter();
+
     const handleFormSubmit = async (prevState: any, formData: FormData) => {
         try {
             
@@ -39,18 +43,19 @@ const StartupForm = () => {
 
             await formSchema.parseAsync(formValues);
 
-            //const result = await createPitch(prevState, formData, pitch);
+            const result = await createPitch(prevState, formData, pitch);
 
-            // if (result.status == "SUCCESS") {
-            //     toast({
-            //       title: "Success",
-            //       description: "Your startup pitch has been created successfully",
-            //     });
+            if (result.status == "SUCCESS") {
+                toast({
+                  title: "Success",
+                  description: "Your startup pitch has been created successfully",
+                  className: "bg-white text-black",
+                });
 
-            //     router.push(`/startup/${result._id}`);
-            //   }
+                router.push(`/startup/${result._id}`);
+              }
 
-            //   return result;
+              return result;
 
         } catch (error) {
             if (error instanceof z.ZodError) {
@@ -62,6 +67,7 @@ const StartupForm = () => {
                     title: "Error",
                     description: "Please check your inputs and try again",
                     variant: "destructive",
+                    className: "bg-white text-black",
                 });
 
                 return { ...prevState, error: "Validation failed", status: "ERROR" };
@@ -71,6 +77,7 @@ const StartupForm = () => {
                 title: "Error",
                 description: "Please check your inputs and try again",
                 variant: "destructive",
+                className: "bg-white text-black",
             });
 
             return {

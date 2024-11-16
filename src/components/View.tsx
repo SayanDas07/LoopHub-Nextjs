@@ -33,7 +33,7 @@ const View = async ({ id }: { id: string }) => {
 
           ) : (
             <span className="view-text">
-              <span className='font-black'>{totalViews} view</span>
+              <span className='font-black'>{totalViews} views</span>
             </span>
           )
         }
